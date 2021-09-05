@@ -28,9 +28,9 @@
           </div>
           <div v-if="tabOption.tab == 'Powers'">
             <div v-for="power in charPowers" :key="power.name">
-              <v-btn small block :href="power.url" target="result">{{power.usage}} {{
-                power.name
-              }}</v-btn>
+              <v-btn small block :href="power.url" target="result"
+                >{{ power.usage }} {{ power.name }}</v-btn
+              >
             </div>
           </div>
           <div v-if="tabOption.tab == 'Items'">
@@ -76,16 +76,16 @@
 </template>
 
 <script>
-import xml2js from "xml2js";
-import axios from "axios";
+import xml2js from 'xml2js'
+import axios from 'axios'
 
 export default {
-  name: "CharPanel",
+  name: 'CharPanel',
   data() {
     return {
-      file_data: "",
-      char_url: "https://nonjosh.com/downloads/char/nonjoshiii.dnd4e",
-      char_name: "",
+      file_data: '',
+      char_url: 'https://nonjosh.com/downloads/char/nonjoshiii.dnd4e',
+      char_name: '',
       charStat: [],
       char_feats: [],
       charPowers: [],
@@ -93,179 +93,179 @@ export default {
       tab: null,
       tabOptions: [
         // { tab: "Stat", content: "Stat Content" },
-        { tab: "Feats", content: "Feats Content" },
-        { tab: "Powers", content: "Powers Content" },
-        { tab: "Items", content: "Items Content" },
+        { tab: 'Feats', content: 'Feats Content' },
+        { tab: 'Powers', content: 'Powers Content' },
+        { tab: 'Items', content: 'Items Content' },
       ],
-    };
+    }
   },
   mounted() {
     axios
       .get(this.char_url)
       .then((response) => {
-        const parser = new xml2js.Parser();
-        this.file_data = response.data;
+        const parser = new xml2js.Parser()
+        this.file_data = response.data
 
-        let charJson;
+        let charJson
         parser.parseString(response.data, (err, rst) => {
-            if (err) {
-                console.log(err.stack);
-            }
-          charJson = rst;
-        });
+          if (err) {
+            console.log(err.stack)
+          }
+          charJson = rst
+        })
 
         // render char name
         this.char_name =
-          charJson.D20Character.CharacterSheet[0].Details[0].name[0];
+          charJson.D20Character.CharacterSheet[0].Details[0].name[0]
 
         // render char stat
         const charStat =
-          charJson.D20Character.CharacterSheet[0].StatBlock[0].Stat;
+          charJson.D20Character.CharacterSheet[0].StatBlock[0].Stat
         charStat.forEach((statObj) => {
-          const statObjName = statObj.alias[0].$.name;
-          const statObjValue = statObj.$.value;
+          const statObjName = statObj.alias[0].$.name
+          const statObjValue = statObj.$.value
           if (
-            statObjName.endsWith("Defense") ||
-            statObjName.endsWith("AC") ||
-            statObjName.endsWith("Initiative") ||
-            statObjName.endsWith("Hit Points")
+            statObjName.endsWith('Defense') ||
+            statObjName.endsWith('AC') ||
+            statObjName.endsWith('Initiative') ||
+            statObjName.endsWith('Hit Points')
           ) {
-            const stat = {};
-            stat.name = statObjName;
-            stat.value = statObjValue;
-            this.charStat.push(stat);
+            const stat = {}
+            stat.name = statObjName
+            stat.value = statObjValue
+            this.charStat.push(stat)
           }
-        });
+        })
 
         // feat list\
         const RulesElementTally =
           charJson.D20Character.CharacterSheet[0].RulesElementTally[0]
-            .RulesElement;
+            .RulesElement
         RulesElementTally.forEach((RulesElement) => {
-          const elementType = RulesElement.$.type;
-          if (elementType === "Feat") {
-            const feat = {};
-            feat.name = RulesElement.$.name;
+          const elementType = RulesElement.$.type
+          if (elementType === 'Feat') {
+            const feat = {}
+            feat.name = RulesElement.$.name
             feat.url = feat.name.replace(
               / \(Strength\)| \(Constitution\)| \(Dexterity\)| \(Intelligence\)| \(Wisdom\)| \(Charisma\)/,
-              ""
-            );
-            feat.url = feat.url.replaceAll(" ", "-").replaceAll("'", "");
+              ''
+            )
+            feat.url = feat.url.replaceAll(' ', '-').replaceAll("'", '')
             feat.url =
-              "https://data.dnd.nonjosh.com/compendium/feat/" +
+              'https://data.dnd.nonjosh.com/compendium/feat/' +
               feat.url +
-              ".html";
-            this.char_feats.push(feat);
+              '.html'
+            this.char_feats.push(feat)
           }
-        });
+        })
 
         // render power list
         const charPowers =
-          charJson.D20Character.CharacterSheet[0].PowerStats[0].Power;
+          charJson.D20Character.CharacterSheet[0].PowerStats[0].Power
         charPowers.forEach((powerObj) => {
-          const power = {};
-          power.name = powerObj.$.name;
-          power.usage = powerObj.specific[0]._;
-          power.action = powerObj.specific[1]._;
+          const power = {}
+          power.name = powerObj.$.name
+          power.usage = powerObj.specific[0]._
+          power.action = powerObj.specific[1]._
           switch (power.name) {
-            case "Melee Basic Attack":
+            case 'Melee Basic Attack':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/glossary/Basic-Attack.html";
-              break;
-            case "Ranged Basic Attack":
+                'https://data.dnd.nonjosh.com/compendium/glossary/Basic-Attack.html'
+              break
+            case 'Ranged Basic Attack':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/glossary/Basic-Attack.html";
-              break;
-            case "Bull Rush Attack":
+                'https://data.dnd.nonjosh.com/compendium/glossary/Basic-Attack.html'
+              break
+            case 'Bull Rush Attack':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/glossary/Bull-Rush.html";
-              break;
-            case "Grab Attack":
+                'https://data.dnd.nonjosh.com/compendium/glossary/Bull-Rush.html'
+              break
+            case 'Grab Attack':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/glossary/Grab.html";
-              break;
-            case "Opportunity Attack":
+                'https://data.dnd.nonjosh.com/compendium/glossary/Grab.html'
+              break
+            case 'Opportunity Attack':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/glossary/Opportunity-Attack.html";
-              break;
-            case "Second Wind":
+                'https://data.dnd.nonjosh.com/compendium/glossary/Opportunity-Attack.html'
+              break
+            case 'Second Wind':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/glossary/Second-wind.html";
-              break;
-            case "Refire the Forge Attack":
+                'https://data.dnd.nonjosh.com/compendium/glossary/Second-wind.html'
+              break
+            case 'Refire the Forge Attack':
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/power/Refire-the-Forge.html";
-              break;
+                'https://data.dnd.nonjosh.com/compendium/power/Refire-the-Forge.html'
+              break
             default:
               power.url =
-                "https://data.dnd.nonjosh.com/compendium/power/" +
-                power.name.replaceAll(" ", "-").replaceAll("'", "") +
-                ".html";
+                'https://data.dnd.nonjosh.com/compendium/power/' +
+                power.name.replaceAll(' ', '-').replaceAll("'", '') +
+                '.html'
           }
-          this.charPowers.push(power);
-        });
+          this.charPowers.push(power)
+        })
 
         // render item list
         const LootTally =
-          charJson.D20Character.CharacterSheet[0].LootTally[0].loot;
+          charJson.D20Character.CharacterSheet[0].LootTally[0].loot
         LootTally.forEach((lootObj) => {
           // console.log(lootObj);
-          const item = {};
+          const item = {}
           const RulesElement =
-            lootObj.RulesElement[lootObj.RulesElement.length - 1];
-          item.name = RulesElement.$.name;
+            lootObj.RulesElement[lootObj.RulesElement.length - 1]
+          item.name = RulesElement.$.name
 
           const advGear = [
             "Adventurer's Kit",
             "Climber's Kit",
             "Thieves' Tools",
-            "Tent",
-            "Fire Kit",
-            "Torch",
-            "Common Meal",
-            "Alchemical Reagents (Arcana)",
-          ];
+            'Tent',
+            'Fire Kit',
+            'Torch',
+            'Common Meal',
+            'Alchemical Reagents (Arcana)',
+          ]
           if (advGear.includes(item.name)) {
-            return;
+            return
           }
 
-          item.count = parseInt(lootObj.$.count);
+          item.count = parseInt(lootObj.$.count)
 
-          item.equip = lootObj.$["equip-count"] === "1";
+          item.equip = lootObj.$['equip-count'] === '1'
           let url = item.name.replace(
             / \(heroic tier\)| \(paragon tier\)| \(epic tier\)/,
-            ""
-          );
-          if (url.lastIndexOf(" (level") > -1) {
-            url = url.substring(0, url.lastIndexOf(" (level"));
+            ''
+          )
+          if (url.lastIndexOf(' (level') > -1) {
+            url = url.substring(0, url.lastIndexOf(' (level'))
           }
-          url = url.replace(/ \+1| \+2| \+3| \+4| \+5| \+6|/g, "");
-          url = url.replaceAll(" ", "-").replaceAll("'", "");
-          url = url.replaceAll(/\(|\)/g, "");
+          url = url.replace(/ \+1| \+2| \+3| \+4| \+5| \+6|/g, '')
+          url = url.replaceAll(' ', '-').replaceAll("'", '')
+          url = url.replaceAll(/\(|\)/g, '')
           item.url =
-            "https://data.dnd.nonjosh.com/compendium/item/" + url + ".html";
+            'https://data.dnd.nonjosh.com/compendium/item/' + url + '.html'
 
-          this.charItems.push(item);
-        });
+          this.charItems.push(item)
+        })
         // sort item list
         function compare(a, b) {
           if (a.name < b.name) {
-            return -1;
+            return -1
           }
           if (a.name > b.name) {
-            return 1;
+            return 1
           }
-          return 0;
+          return 0
         }
-        this.charItems.sort(compare);
+        this.charItems.sort(compare)
       })
       .catch((err) => {
         // Manage the state of the application if the request
         // has failed
-        console.log(err);
-      });
+        console.log(err)
+      })
   },
-};
+}
 </script>
 
 <style lang="scss">
