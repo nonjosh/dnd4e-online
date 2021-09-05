@@ -114,24 +114,6 @@
 import xml2js from 'xml2js'
 import axios from 'axios'
 
-function sortPower(a, b) {
-  if (a.name < b.name) {
-    return -1
-  }
-  if (a.name > b.name) {
-    return 1
-  }
-  return 0
-}
-function sortByObjName(a, b) {
-  if (a.name < b.name) {
-    return -1
-  }
-  if (a.name > b.name) {
-    return 1
-  }
-  return 0
-}
 export default {
   name: 'CharPanel',
   data() {
@@ -195,7 +177,7 @@ export default {
       return this.chars[this.currentCharId]
     },
   },
-  mounted() {
+  created() {
     this.chars.forEach((char) => {
       axios
         .get(char.char_url)
@@ -301,7 +283,7 @@ export default {
             char.charPowers.push(power)
           })
           // sort item list
-          char.charPowers.sort(sortPower)
+          char.charPowers.sort(this.sortPower)
 
           // render item list
           const LootTally =
@@ -346,7 +328,7 @@ export default {
             char.charItems.push(item)
           })
           // sort item list
-          char.charItems.sort(sortByObjName)
+          char.charItems.sort(this.sortByObjName)
         })
         .catch((err) => {
           // Manage the state of the application if the request
@@ -354,6 +336,26 @@ export default {
           console.log(err)
         })
     })
+  },
+  methods: {
+    sortPower(a, b) {
+      if (a.name < b.name) {
+        return -1
+      }
+      if (a.name > b.name) {
+        return 1
+      }
+      return 0
+    },
+    sortByObjName(a, b) {
+      if (a.name < b.name) {
+        return -1
+      }
+      if (a.name > b.name) {
+        return 1
+      }
+      return 0
+    },
   },
 }
 </script>
