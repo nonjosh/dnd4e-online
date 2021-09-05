@@ -1,22 +1,35 @@
 <template>
   <div class="char-panel">
-    <v-toolbar>
-      <v-tabs>
-        <v-tab
-          v-for="char in chars"
-          :key="char.id"
-          @click="currentCharId = char.id"
-          >{{ char.char_name }}</v-tab
-        >
-      </v-tabs>
-    </v-toolbar>
     <div class="detail-list">
-      <v-tabs v-model="currentDetailTabId">
-        <v-tab> Stat </v-tab>
-        <v-tab> Feats </v-tab>
-        <v-tab> Powers </v-tab>
-        <v-tab> Items </v-tab>
-      </v-tabs>
+      <v-container>
+        <v-row>
+          <v-col
+            ><v-menu offset-y>
+              <template #activator="{ on, attrs }">
+                <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                  {{ chars[currentCharId].char_name }}
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item v-for="(char, index) in chars" :key="index" link>
+                  <v-list-item-title @click="currentCharId = char.id">{{
+                    char.char_name
+                  }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu></v-col
+          >
+          <v-col
+            ><v-tabs v-model="currentDetailTabId" right>
+              <v-tab> Stat </v-tab>
+              <v-tab> Feats </v-tab>
+              <v-tab> Powers </v-tab>
+              <v-tab> Items </v-tab>
+            </v-tabs></v-col
+          >
+        </v-row></v-container
+      >
+
       <v-tabs-items v-model="currentDetailTabId">
         <v-tab-item v-for="tabOption in tabOptions" :key="tabOption.tab">
           <div v-if="tabOption.tab == 'Stat'">
@@ -347,7 +360,7 @@ export default {
 
 <style lang="scss">
 .detail-list {
-  width: 30vw;
+  width: 35vw;
   height: 95vh;
   float: left;
   overflow-y: scroll;
