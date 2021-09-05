@@ -83,6 +83,7 @@ export default {
   name: 'CharPanel',
   data() {
     return {
+      title: 'Chars',
       file_data: '',
       char_url: 'https://nonjosh.com/downloads/char/nonjoshiii.dnd4e',
       char_name: '',
@@ -97,6 +98,11 @@ export default {
         { tab: 'Powers', content: 'Powers Content' },
         { tab: 'Items', content: 'Items Content' },
       ],
+    }
+  },
+  head() {
+    return {
+      title: this.title,
     }
   },
   mounted() {

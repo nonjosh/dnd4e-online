@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - dnd4e-online',
-    title: 'dnd4e-online',
+    titleTemplate: 'DnD4e - %s',
+    title: 'DnD4e online',
     htmlAttrs: {
       lang: 'en'
     },
