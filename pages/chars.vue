@@ -11,13 +11,13 @@
       </v-tabs>
     </v-toolbar>
     <div class="detail-list">
-      <v-tabs v-model="currentDetailTab">
+      <v-tabs v-model="currentDetailTabId">
         <v-tab> Stat </v-tab>
         <v-tab> Feats </v-tab>
         <v-tab> Powers </v-tab>
         <v-tab> Items </v-tab>
       </v-tabs>
-      <v-tabs-items v-model="currentDetailTab">
+      <v-tabs-items v-model="currentDetailTabId">
         <v-tab-item v-for="tabOption in tabOptions" :key="tabOption.tab">
           <div v-if="tabOption.tab == 'Stat'">
             <div v-for="stat in chars[currentCharId].charStat" :key="stat.name">
@@ -163,7 +163,7 @@ export default {
           charItems: [],
         },
       ],
-      currentDetailTab: null,
+      currentDetailTabId: null,
       tabOptions: [
         { tab: 'Stat', content: 'Stat Content' },
         { tab: 'Feats', content: 'Feats Content' },
