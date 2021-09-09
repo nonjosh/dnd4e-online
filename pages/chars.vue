@@ -187,7 +187,7 @@ export default {
           let charJson
           parser.parseString(response.data, (err, rst) => {
             if (err) {
-              console.log(err.stack)
+              console.error(err.stack)
             }
             charJson = rst
           })
@@ -333,7 +333,7 @@ export default {
         .catch((err) => {
           // Manage the state of the application if the request
           // has failed
-          console.log(err)
+          console.error(err)
         })
     })
   },
