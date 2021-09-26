@@ -288,15 +288,7 @@ export default {
             char.charPowers.push(power)
           })
           // sort power list, by usage than name
-          const ordering = {} // map for efficient lookup of sortIndex
-          const sortOrder = [' At-Will ', ' Encounter ', ' Daily ']
-          for (let i = 0; i < sortOrder.length; i++) ordering[sortOrder[i]] = i
-          char.charPowers.sort(function (a, b) {
-            return (
-              ordering[a.usage] - ordering[b.usage] ||
-              a.name.localeCompare(b.name)
-            )
-          })
+          char.charPowers.sort(this.sortPower)
 
           // render item list
           const LootTally =
@@ -352,13 +344,12 @@ export default {
   },
   methods: {
     sortPower(a, b) {
-      if (a.name < b.name) {
-        return -1
-      }
-      if (a.name > b.name) {
-        return 1
-      }
-      return 0
+      const ordering = {} // map for efficient lookup of sortIndex
+      const sortOrder = [' At-Will ', ' Encounter ', ' Daily ']
+      for (let i = 0; i < sortOrder.length; i++) ordering[sortOrder[i]] = i
+      return (
+        ordering[a.usage] - ordering[b.usage] || a.name.localeCompare(b.name)
+      )
     },
     sortByObjName(a, b) {
       if (a.name < b.name) {
