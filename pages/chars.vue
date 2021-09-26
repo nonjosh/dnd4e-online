@@ -53,7 +53,12 @@
               :key="power.name"
             >
               <v-btn small block :href="power.url" target="result"
-                ><v-badge inline left :content="power.usage">
+                ><v-badge
+                  inline
+                  left
+                  :content="power.usage"
+                  :color="powerColor(power.usage)"
+                >
                   {{ power.name }}</v-badge
                 ></v-btn
               >
@@ -363,6 +368,12 @@ export default {
         return 1
       }
       return 0
+    },
+    powerColor(powerUsage) {
+      if (powerUsage.includes('At-Will')) return '#619869'
+      if (powerUsage.includes('Encounter')) return '#961334'
+      if (powerUsage.includes('Daily')) return '#4d4d4f'
+      return 'blue'
     },
   },
 }
