@@ -16,7 +16,15 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"dbaeumer.vscode-eslint"
+		"dbaeumer.vscode-eslint",
+		"donjayamanne.githistory",
+		"eamodio.gitlens",
+		"oderwat.indent-rainbow",
+		"usernamehw.errorlens",
+		"esbenp.prettier-vscode",
+		"octref.vetur",
+		"cssho.vscode-svgviewer",
+		"naumovs.color-highlight"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
