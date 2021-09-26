@@ -60,8 +60,8 @@
                   :color="powerColor(power.usage)"
                 >
                   {{ power.name }}</v-badge
-                ></v-btn
-              >
+                ><v-checkbox v-if="power.usage!=' At-Will '"></v-checkbox
+              ></v-btn>
             </div>
           </div>
           <div v-if="tabOption.tab == 'Items'">
